@@ -8,7 +8,6 @@ var makeStack = function() {
 
   // Implement the methods below
   _.extend(instance, stackMethods);
-  console.log(instance);
   return instance;
 };
 
