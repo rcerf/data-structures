@@ -18,12 +18,23 @@ var makeLinkedList = function(){
   list.removeHead = function(){
     if(list.head){
       var cached = list.head.next;
+      var oldVal = list.head.value;
       list.head.next = null;
       list.head = cached;
+      return oldVal;
     }
   };
 
-  list.contains = function(){
+  list.contains = function(value, node){
+    node = node || list.head;
+    var present = false;
+    if(node.value === value){
+      present = true;
+    }else if(node.next){
+      present = this.contains(value, node.next);
+    }
+    //debugger;
+    return present;
 
   };
 
