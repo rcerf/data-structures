@@ -19,4 +19,25 @@ describe("tree", function() {
     var imageTwo = images.addChild("/images/that.png");
     expect(images.children.length).toEqual(2);
   });
+
+  it("should determine if a given node or it's children have a value using the .contains() method", function() {
+    var images = tree.addChild("images");
+    var links = tree.addChild("links");
+    var imageOne = images.addChild("/images/this.png");
+    var imageTwo = images.addChild("/images/that.png");
+    var linkOne = links.addChild("http://www.here.com");
+    expect(tree.contains("http://www.here.com")).toEqual(true);
+    expect(tree.contains("lolcatzzzzz")).toEqual(false);
+  });
+
+  it("should be able to find a child node and return it (based in value) using .find()", function() {
+    var images = tree.addChild("images");
+    var links = tree.addChild("links");
+    var imageOne = images.addChild("/images/this.png");
+    var imageTwo = images.addChild("/images/that.png");
+    var linkOne = links.addChild("http://www.here.com");
+    expect(tree.find("http://www.here.com")).toEqual(linkOne);
+    expect(tree.find("A missing node")).toEqual(null);
+  });
+
 });
