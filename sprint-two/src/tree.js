@@ -1,6 +1,6 @@
 var makeTree = function(value){
   var newTree = {};
-  newTree.value = value;
+  newTree.value = value || "Top o' the tree";
   newTree.children = [];
   newTree.parent = null;
   newTree = extend(newTree, treeMethods);
@@ -23,25 +23,29 @@ treeMethods.addChild = function(value){
   return child;
 };
 
-treeMethods.contains = function(){
+treeMethods.contains = function(value, node){
+  node = node || this;
+  var found = false;
+  if (node.value === value) {
+    found = true;
+  } else if (node.children.length) {
+    for(var i = 0; i<node.children.length; i++){
+      found = node.contains(value, node.children[i]);
+    }
+  }
+  return found;
 };
 
-
-
-// newTree.childred should starts as [] = each subtree node with have arrays of objects as the children, so it makes sense that when there are NO children, we just find an empty array.
-// Should makeTree initiate the FIRST (most parent) node? 
-// Contains should work recursively, like getElementsByClassName, except it will not need to build an arrays of nodes, it just needs find one, then recurse backwards
-// addChild should make a new tree object, and it to the parent tree's ,children array. It will need to be passed the parent node(?)
-// .contains should return the object, to pass in as a node in making a new child.
-// var thisTree = makeTree(Head);
-
-// var makeTree = function(value) {
-// // node = node || "Head"; (?)
-// newTree.value = value;
-// newTree.children = [];
-
-// treeMethods.addChild = function(node, value) {
-// var addedTo = this.contains(node) {
-// var newTree = makeTree(value);
-// addedTo.children.push(newTree);
-// }
+treeMethods.find = function(value, node){
+  node = node || this;
+  var foundNode = null;
+  if (node.value === value) {
+    foundNode = node;
+  } else if (node.children.length) {
+    for(var i = 0; i<node.children.length; i++){
+      //debugger;
+      foundNode = node.find(value, node.children[i]);
+    }
+  }
+  return foundNode;
+};
