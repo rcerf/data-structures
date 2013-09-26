@@ -16,9 +16,15 @@ var makeLinkedList = function(){
   };
 
   list.removeHead = function(){
+    if(list.head){
+      var cached = list.head.next;
+      list.head.next = null;
+      list.head = cached;
+    }
   };
 
   list.contains = function(){
+
   };
 
   return list;
