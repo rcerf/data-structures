@@ -12,4 +12,11 @@ describe("tree", function() {
   });
 
   // Add more tests here to test the functionality of tree.
+  it("should add a child to a tree node", function() {
+    var images = tree.addChild("images");
+    expect(tree.children[0]).toEqual(images);
+    var imageOne = images.addChild("/images/this.png");
+    var imageTwo = images.addChild("/images/that.png");
+    expect(images.children.length).toEqual(2);
+  });
 });
