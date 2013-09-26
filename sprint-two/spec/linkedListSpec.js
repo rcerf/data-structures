@@ -31,8 +31,7 @@ describe("linkedList", function() {
     linkedList.removeHead();
     console.log(linkedList);
     //expect(linkedList.head.value).toEqual(4);
-    linkedList.removeHead();
-    expect(linkedList.head).toEqual(null);
+    expect(linkedList.removeHead()).toEqual(12);
     linkedList.removeHead();
   });
 
