@@ -26,7 +26,21 @@ describe("linkedList", function() {
   });
 
   it("can remove head", function(){
+    linkedList.addToTail(4);
+    linkedList.addToTail(12);
     linkedList.removeHead();
-    expect(linkedList.head.value).toEqual(5);
+    console.log(linkedList);
+    //expect(linkedList.head.value).toEqual(4);
+    linkedList.removeHead();
+    expect(linkedList.head).toEqual(null);
+    linkedList.removeHead();
+  });
+
+
+  it("can find whether linkedList contains a value", function(){
+    linkedList.addToTail(10);
+    linkedList.addToTail(5);
+    linkedList.addToTail(7);
+    expect(linkedList.contains(5)).toEqual(true);
   });
 });
