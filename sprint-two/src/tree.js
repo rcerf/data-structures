@@ -3,8 +3,15 @@ var makeTree = function(value){
   newTree.value = value;
   newTree.children = [];
   newTree.parent = null;
-  _.extend(newTree, treeMethods);
+  newTree = extend(newTree, treeMethods);
   return newTree;
+};
+
+var extend = function(destination, source) {
+  for (var key in source) {
+    destination[key] = source[key];
+  }
+  return destination;
 };
 
 var treeMethods = {};
@@ -13,6 +20,7 @@ treeMethods.addChild = function(value){
   var child = makeTree(value);
   child.parent = this;
   this.children.push(child);
+  return child;
 };
 
 treeMethods.contains = function(){
