@@ -17,4 +17,16 @@ describe("linkedList", function() {
   });
 
   // add more tests here to test the functionality of linkedList
+  it("can add to tail", function(){
+    linkedList.addToTail(10);
+    linkedList.addToTail(5);
+    linkedList.addToTail(7);
+    console.log(linkedList);
+    expect(linkedList.tail.value).toEqual(7);
+  });
+
+  it("can remove head", function(){
+    linkedList.removeHead();
+    expect(linkedList.head.value).toEqual(5);
+  });
 });
