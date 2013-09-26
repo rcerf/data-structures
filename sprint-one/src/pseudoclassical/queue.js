@@ -1,24 +1,22 @@
 var Queue = function() {
   // Use an object with numeric keys to store values
   this.storage = {};
-  this.queueSize = 0;
+  this.start = 0;
+  this.end = 0;
 };
 
-
 Queue.prototype.enqueue = function(value){
-  this.queueSize++;
-  for(var i = this.queueSize; i>1; i--){
-    this.storage[i] = this.storage[i-1];
-  }
-  this.storage[1] = value;
+  this.start++;
+  this.storage[this.start] = value;
 };
 
 Queue.prototype.dequeue = function(){
-  var val = this.storage[this.queueSize];
-  this.queueSize && this.queueSize--;
+  this.size() && this.end++
+  var val = this.storage[this.end];
+  delete this.storage[val];
   return val;
 };
 
 Queue.prototype.size = function(){
-  return this.queueSize;
+  return this.start - this.end;
 };

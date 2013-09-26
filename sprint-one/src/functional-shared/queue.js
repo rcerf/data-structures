@@ -4,7 +4,8 @@ var makeQueue = function(){
 
   // Use an object with numeric keys to store values
   instance.storage = {};
-  instance.queueSize = 0;
+  instance.start = 0;
+  instance.end = 0;
 
   // Implement the methods below
   _.extend(instance, queueMethods);
@@ -14,20 +15,17 @@ var makeQueue = function(){
 var queueMethods = {};
 
 queueMethods.enqueue = function(value){
-  this.queueSize++;
-  for(var i = this.queueSize; i>1; i--){
-    this.storage[i] = this.storage[i-1];
-  }
-  this.storage[1] = value;
+  this.start++;
+  this.storage[this.start] = value;
 };
 
 queueMethods.dequeue = function(){
-  var val = this.storage[this.queueSize];
-  this.queueSize && this.queueSize--;
+  this.size() && this.end++
+  var val = this.storage[this.end];
+  delete this.storage[val];
   return val;
 };
 
 queueMethods.size = function(){
-  return this.queueSize;
+  return this.start - this.end;
 };
-
