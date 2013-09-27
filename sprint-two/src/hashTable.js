@@ -20,7 +20,6 @@ HashTable.prototype.insert = function(k, v){
 
   if (this._storage.get(i) === undefined) {
     var linkedList = this.makeLinkedList();
-    debugger;
   } else {
     var linkedList = this._storage.get(i);
   }
@@ -30,11 +29,10 @@ HashTable.prototype.insert = function(k, v){
 
 HashTable.prototype.retrieve = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
-  var returned = this._storage.get(i);
-  for (var index = 0; index < returned.length; index++) {
-    if (returned[index][0] === k) {
-      return returned[index][1];
-    }
+  var linkedList = this._storage.get(i);
+  if (linkedList.contains(k)) {
+    value = linkedList.returnValue(k);
+    return value;
   }
   return undefined;
 };
@@ -66,10 +64,9 @@ HashTable.prototype.makeLinkedList = function(){
       list[1] = newNode;
       list[0] = newNode;
     } else{
-      list[1][3] = newNode;
+      list[1][2] = newNode;
     }
     list[1] = newNode;
-    console.log(list);
   };
 
   list.removeHead = function(){
@@ -83,25 +80,25 @@ HashTable.prototype.makeLinkedList = function(){
   };
 
   list.contains = function(value, node){
-    node = node || list.head;
-    var present = false;
-    if(node.value === value){
-      present = true;
-    }else if(node.next){
-      present = this.contains(value, node.next);
+    node = node || list[0];
+    var result = false;
+    if(node[1] === value){
+      result = true;
+    }else if(node[2]){
+      result = this.contains(value, node[2]);
     }
-    return present;
+    return result;
   };
 
-  list.returns = function(value, node){
-    node = node || list.head;
+  list.returnValue = function(value, node){
+    node = node || list[0];
     //var payload = null;
-    if(node.value === value){
-      return node;
-    }else if(node.next){
-      node = this.contains(value, node.next);
+    if(node[1] === value){
+      return node[1];
+    }else if(node[2]){
+      value = this.returnValue(value, node[2]);
     }
-    return node;
+    return value;
   };
 
   return list;
