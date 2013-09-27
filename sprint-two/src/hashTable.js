@@ -16,14 +16,15 @@ var HashTable = function(){
 // Each array in the index need to contain the key, value and next array.
 
 HashTable.prototype.insert = function(k, v){
+  var linkedList;
   var i = getIndexBelowMaxForKey(k, this._limit);
-
   if (this._storage.get(i) === undefined) {
-    var linkedList = this.makeLinkedList();
+    linkedList = this.makeLinkedList();
   } else {
-    var linkedList = this._storage.get(i);
+    linkedList = this._storage.get(i);
   }
   linkedList.addToTail(k,v);
+  console.log(linkedList);
   this._storage.set(i, linkedList);
 };
 
@@ -39,17 +40,10 @@ HashTable.prototype.retrieve = function(k){
 
 HashTable.prototype.remove = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
-  var returned = this._storage.get(i);
-
-  var index = 0;
-
-  while (returned[index][0] !== k && index < returned.length-1) {
-    index++;
-  }
-  if (index < returned.length) {
-    for (var j = index; j < returned.length; j++) {
-      returned[j] = returned[j+1];
-    }
+  var linkedList = this._storage.get(i);
+  if(linkedList.contains(k)){
+    var nodeDelete = linkedList.returnValue(k);
+    linkedList.removeNode(nodeDelete);
   }
 };
 
@@ -63,20 +57,18 @@ HashTable.prototype.makeLinkedList = function(){
     if(list[1] === null){
       list[1] = newNode;
       list[0] = newNode;
-    } else{
-      list[1][2] = newNode;
+    }else{
+      list[1][3] = newNode;
+      newNode[2] = list[1];
     }
     list[1] = newNode;
   };
 
-  list.removeHead = function(){
-    if(!!list[0]){
-      var cached = list[0][3];
-      var oldVal = list[0].value;
-      list.head.next = null;
-      list.head = cached;
-      return oldVal;
-    }
+  list.removeNode = function(node){
+    var prevNode = node[2];
+    var nextNode = node[3];
+    prevNode[3] = nextNode;
+    nextNode[2] = prevNode;
   };
 
   list.contains = function(value, node){
@@ -84,8 +76,8 @@ HashTable.prototype.makeLinkedList = function(){
     var result = false;
     if(node[1] === value){
       result = true;
-    }else if(node[2]){
-      result = this.contains(value, node[2]);
+    }else if(node[3]){
+      result = this.contains(value, node[3]);
     }
     return result;
   };
@@ -95,8 +87,8 @@ HashTable.prototype.makeLinkedList = function(){
     //var payload = null;
     if(node[1] === value){
       return node[1];
-    }else if(node[2]){
-      value = this.returnValue(value, node[2]);
+    }else if(node[3]){
+      value = this.returnValue(value, node[3]);
     }
     return value;
   };
@@ -108,6 +100,7 @@ HashTable.prototype.makeNode = function(k,v){
   var node = [];
   node.push(k);
   node.push(v);
+  node.push(null);
   node.push(null);
   return node;
 };
