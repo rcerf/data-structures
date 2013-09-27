@@ -43,7 +43,6 @@ treeMethods.find = function(value, node){
     foundNode = node;
   } else if (node.children.length) {
     for(var i = 0; i<node.children.length; i++){
-      //debugger;
       foundNode = node.find(value, node.children[i]);
     }
   }

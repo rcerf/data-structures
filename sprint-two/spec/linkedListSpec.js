@@ -21,7 +21,6 @@ describe("linkedList", function() {
     linkedList.addToTail(10);
     linkedList.addToTail(5);
     linkedList.addToTail(7);
-    console.log(linkedList);
     expect(linkedList.tail.value).toEqual(7);
   });
 
@@ -29,8 +28,6 @@ describe("linkedList", function() {
     linkedList.addToTail(4);
     linkedList.addToTail(12);
     linkedList.removeHead();
-    console.log(linkedList);
-    //expect(linkedList.head.value).toEqual(4);
     expect(linkedList.removeHead()).toEqual(12);
     linkedList.removeHead();
   });
