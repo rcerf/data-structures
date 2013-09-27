@@ -18,4 +18,22 @@ describe("set", function() {
     console.log(set);
     expect(set._storage["Hello"]).toEqual(true);
   });
+
+  it('should determine whether an object is present.', function() {
+    var set = makeSet();
+    set.add("Hello");
+    set.add("World");
+    set.add("Dog");
+    expect(set.contains("World")).toEqual(true);
+  });
+
+  it("should remove an element from the set", function() {
+    var set = makeSet();
+    set.add("Hello");
+    set.add("World");
+    set.add("Dog");
+    set.remove("World");
+    expect(set.contains("World")).toEqual(false);
+  });
+  
 });
