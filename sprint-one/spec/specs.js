@@ -157,6 +157,7 @@ define([
         queue.enqueue('c');
         expect(queue.dequeue()).to.equal('b');
       });
+
     });
 
   });
