@@ -12,16 +12,20 @@ var HashTable = function(){
 
   this._storage = makeLimitedArray(this._limit);
 };
+// TUrn my 2D arrays into linked list. The index itself need only contain a head and tail pointer. 
+// Each array in the index need to contain the key, value and next array.
 
 HashTable.prototype.insert = function(k, v){
   var i = getIndexBelowMaxForKey(k, this._limit);
-  var arr = [k,v];
-  var contents = this._storage.get(i);
-  if (contents === undefined) {
-    contents = [];
+
+  if (this._storage.get(i) === undefined) {
+    var linkedList = this.makeLinkedList();
+    debugger;
+  } else {
+    var linkedList = this._storage.get(i);
   }
-  contents.push(arr);
-  this._storage.set(i, contents);
+  linkedList.addToTail(k,v);
+  this._storage.set(i, linkedList);
 };
 
 HashTable.prototype.retrieve = function(k){
@@ -38,8 +42,9 @@ HashTable.prototype.retrieve = function(k){
 HashTable.prototype.remove = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
   var returned = this._storage.get(i);
-  debugger;
+
   var index = 0;
+
   while (returned[index][0] !== k && index < returned.length-1) {
     index++;
   }
@@ -48,6 +53,66 @@ HashTable.prototype.remove = function(k){
       returned[j] = returned[j+1];
     }
   }
+};
+
+HashTable.prototype.makeLinkedList = function(){
+  var list = [];
+  list.push(null); // list[0] is the head
+  list.push(null); // list[1] is the tail
+
+  list.addToTail = function(k,v){
+    var newNode = HashTable.prototype.makeNode(k,v);
+    if(list[1] === null){
+      list[1] = newNode;
+      list[0] = newNode;
+    } else{
+      list[1][3] = newNode;
+    }
+    list[1] = newNode;
+    console.log(list);
+  };
+
+  list.removeHead = function(){
+    if(!!list[0]){
+      var cached = list[0][3];
+      var oldVal = list[0].value;
+      list.head.next = null;
+      list.head = cached;
+      return oldVal;
+    }
+  };
+
+  list.contains = function(value, node){
+    node = node || list.head;
+    var present = false;
+    if(node.value === value){
+      present = true;
+    }else if(node.next){
+      present = this.contains(value, node.next);
+    }
+    return present;
+  };
+
+  list.returns = function(value, node){
+    node = node || list.head;
+    //var payload = null;
+    if(node.value === value){
+      return node;
+    }else if(node.next){
+      node = this.contains(value, node.next);
+    }
+    return node;
+  };
+
+  return list;
+};
+
+HashTable.prototype.makeNode = function(k,v){
+  var node = [];
+  node.push(k);
+  node.push(v);
+  node.push(null);
+  return node;
 };
 
 /*
@@ -83,66 +148,5 @@ HashTable.prototype.retrieve = function(k){
 HashTable.prototype.remove = function(){
 };
 
-// NOTE: For this code to work, you will NEED the code from hashTableHelpers.js
-// Start by loading those files up and playing with the functions it provides.
-// You don't need to understand how they work, only their interface is important to you
 
-HashTable.prototype.makeLinkedList = function(){
-  var list = {};
-  list.head = null;
-  list.tail = null;
-
-  list.addToTail = function(value){
-    var newNode = HashTable.prototype.makeNode(value);
-    if(list.tail === null){
-      list.tail = newNode;
-      list.head = newNode;
-    } else{
-      list.tail.next = newNode;
-    }
-    list.tail = newNode;
-  };
-
-  list.removeHead = function(){
-    if(list.head){
-      var cached = list.head.next;
-      var oldVal = list.head.value;
-      list.head.next = null;
-      list.head = cached;
-      return oldVal;
-    }
-  };
-
-  list.contains = function(value, node){
-    node = node || list.head;
-    var present = false;
-    if(node.value === value){
-      present = true;
-    }else if(node.next){
-      present = this.contains(value, node.next);
-    }
-    return present;
-  };
-
-  list.returns = function(value, node){
-    node = node || list.head;
-    //var payload = null;
-    if(node.value === value){
-      return node;
-    }else if(node.next){
-      node = this.contains(value, node.next);
-    }
-    return node;
-  };
-
-  return list;
-};
-
-HashTable.prototype.makeNode = function(value){
-  var node = {};
-  node.value = value;
-  node.next = null;
-
-  return node;
-};
 */
