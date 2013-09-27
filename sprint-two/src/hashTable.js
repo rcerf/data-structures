@@ -16,6 +16,45 @@ var HashTable = function(){
 HashTable.prototype.insert = function(k, v){
   var i = getIndexBelowMaxForKey(k, this._limit);
   var arr = [k,v];
+  var contents = this._storage.get(i);
+  if (contents === undefined) {
+    contents = [];
+  }
+  contents.push(arr);
+  this._storage.set(i, contents);
+};
+
+HashTable.prototype.retrieve = function(k){
+  var i = getIndexBelowMaxForKey(k, this._limit);
+  var returned = this._storage.get(i);
+  for (var index = 0; index < returned.length; index++) {
+    if (returned[index][0] === k) {
+      return returned[index][1];
+    }
+  }
+  return undefined;
+};
+
+HashTable.prototype.remove = function(k){
+  var i = getIndexBelowMaxForKey(k, this._limit);
+  var returned = this._storage.get(i);
+  debugger;
+  var index = 0;
+  while (returned[index][0] !== k && index < returned.length-1) {
+    index++;
+  }
+  if (index < returned.length) {
+    for (var j = index; j < returned.length; j++) {
+      returned[j] = returned[j+1];
+    }
+  }
+};
+
+/*
+
+HashTable.prototype.insert = function(k, v){
+  var i = getIndexBelowMaxForKey(k, this._limit);
+  var arr = [k,v];
   if (this.retrieveLinkedList(k) === undefined) {
     var newLinkedList = HashTable.prototype.makeLinkedList();
     this._storage.set(i, newLinkedList);
@@ -106,3 +145,4 @@ HashTable.prototype.makeNode = function(value){
 
   return node;
 };
+*/

@@ -21,4 +21,13 @@ describe("hashTable", function() {
   });
 
   // add more tests!
+  it("should be able to remove a key" , function() {
+    var v1 = 'val1', v2 = 'val2', v3 = 'val3', v4 = 'val4';
+    hashTable.insert(v1, v1);
+    hashTable.insert(v2, v2);
+    hashTable.insert(v3, v3);
+    hashTable.insert(v4, v4);
+    hashTable.remove(v3);
+    expect(hashTable.retrieve(v3)).toEqual(undefined);
+  });
 });

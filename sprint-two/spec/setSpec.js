@@ -13,9 +13,7 @@ describe("set", function() {
 
   it("should add to the set", function(){
     var set = makeSet();
-    console.log(set);
     set.add("Hello");
-    console.log(set);
     expect(set._storage["Hello"]).toEqual(true);
   });
 
