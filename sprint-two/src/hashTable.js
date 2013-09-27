@@ -24,7 +24,6 @@ HashTable.prototype.insert = function(k, v){
     linkedList = this._storage.get(i);
   }
   linkedList.addToTail(k,v);
-  console.log(linkedList);
   this._storage.set(i, linkedList);
 };
 
@@ -42,8 +41,18 @@ HashTable.prototype.remove = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
   var linkedList = this._storage.get(i);
   if(linkedList.contains(k)){
-    var nodeDelete = linkedList.returnValue(k);
-    linkedList.removeNode(nodeDelete);
+    var nodeDelete = linkedList.returnNode(k);
+    if(nodeDelete[2] === null && nodeDelete[3] !== null) {
+      linkedList[0] = nodeDelete[3];
+    }else if(nodeDelete[2] !== null && nodeDelete[3] === null){
+      linkedList[1] = nodeDelete[2];
+    }else if (nodeDelete[2] !== null && nodeDelete[3] !== null) {
+      linkedList.removeNode(nodeDelete);
+    } else {
+      linkedList[0] = null;
+      linkedList[1] = null;
+    }
+
   }
 };
 
@@ -55,8 +64,8 @@ HashTable.prototype.makeLinkedList = function(){
   list.addToTail = function(k,v){
     var newNode = HashTable.prototype.makeNode(k,v);
     if(list[1] === null){
-      list[1] = newNode;
       list[0] = newNode;
+      list[1] = newNode;
     }else{
       list[1][3] = newNode;
       newNode[2] = list[1];
@@ -65,14 +74,18 @@ HashTable.prototype.makeLinkedList = function(){
   };
 
   list.removeNode = function(node){
+    // Add a guard when there is only one node in the index, so NULL isnt getting passed around.
     var prevNode = node[2];
     var nextNode = node[3];
-    prevNode[3] = nextNode;
-    nextNode[2] = prevNode;
+    prevNode = node[3];
+    nextNode = node[2];
   };
 
   list.contains = function(value, node){
     node = node || list[0];
+    if(!node){
+      return false;
+    }
     var result = false;
     if(node[1] === value){
       result = true;
@@ -80,6 +93,16 @@ HashTable.prototype.makeLinkedList = function(){
       result = this.contains(value, node[3]);
     }
     return result;
+  };
+
+  list.returnNode = function(value, node) {
+    node = node || list[0];
+    if(node[1] === value){
+      return node;
+    }else if(node[3]){
+      node = this.returnNode(value, node[3]);
+    }
+    return node;
   };
 
   list.returnValue = function(value, node){
@@ -104,39 +127,3 @@ HashTable.prototype.makeNode = function(k,v){
   node.push(null);
   return node;
 };
-
-/*
-
-HashTable.prototype.insert = function(k, v){
-  var i = getIndexBelowMaxForKey(k, this._limit);
-  var arr = [k,v];
-  if (this.retrieveLinkedList(k) === undefined) {
-    var newLinkedList = HashTable.prototype.makeLinkedList();
-    this._storage.set(i, newLinkedList);
-    newLinkedList.addToTail(arr);
-  } else {
-    var linkedList = this.retrieveLinkedList(k);
-    debugger;
-    console.log(linkedList);
-    linkedList.addToTail(arr);
-  }
-};
-
-HashTable.prototype.retrieveLinkedList = function(k){
-  var i = getIndexBelowMaxForKey(k, this._limit);
-  return this._storage.get(i);
-};
-
-HashTable.prototype.retrieve = function(k){
-  var i = getIndexBelowMaxForKey(k, this._limit);
-  //debugger;
-  var linkedList = this.retrieveLinkedList(k);
-  var result = linkedList.returns(k);
-  return result;
-};
-
-HashTable.prototype.remove = function(){
-};
-
-
-*/
