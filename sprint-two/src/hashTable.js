@@ -40,6 +40,7 @@ HashTable.prototype.retrieve = function(k){
 HashTable.prototype.remove = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
   var linkedList = this._storage.get(i);
+//  debugger;
   if(linkedList.contains(k)){
     var nodeDelete = linkedList.returnNode(k);
     if(nodeDelete[2] === null && nodeDelete[3] !== null) {
@@ -77,8 +78,8 @@ HashTable.prototype.makeLinkedList = function(){
     // Add a guard when there is only one node in the index, so NULL isnt getting passed around.
     var prevNode = node[2];
     var nextNode = node[3];
-    prevNode = node[3];
-    nextNode = node[2];
+    prevNode[3] = node[3];
+    nextNode[2] = node[2];
   };
 
   list.contains = function(value, node){
