@@ -33,12 +33,22 @@ describe("binarySearchTree", function() {
     expect(binarySearchTree.largest()).toEqual(10);
   });
 
-  it("should do some shit with callbacks", function(){
+  it("should run callbacks", function(){
     binarySearchTree.insert(5);
     binarySearchTree.insert(1);
     binarySearchTree.insert(3);
     binarySearchTree.insert(7);
-    binarySearchTree.depthFirstLog(function(value) { console.log(value) });
+    binarySearchTree.insert(5);
+    for(var i=0; i< 10000; i++){
+      binarySearchTree.insert(Math.floor(Math.random() * 1000));
+    }
+    binarySearchTree.insert(1000);
+    binarySearchTree.depthFirstLog(function(value){
+      console.log("original value equals", value);
+      value++;
+      console.log("new value equals", value);
+    });
+    expect(binarySearchTree.largest()).toEqual(1000);
   });
-  
+
 });
