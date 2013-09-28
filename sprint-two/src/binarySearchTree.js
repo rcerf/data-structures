@@ -57,7 +57,6 @@ var binarySearchTreeMethods = {
 
   smallest: function(node) {
     node = node || this;
-    var result;
     if (node.left === null) {
       return node.value;
     } else {
@@ -78,5 +77,15 @@ var binarySearchTreeMethods = {
 
   },
 
-  depthFirstLog: function(){}
+  depthFirstLog: function(callback, node){
+    node = node || this;
+    callback(node.value);
+    if (node.left !== null) {
+      node.depthFirstLog(callback, node.left);
+    }
+    if (node.right !== null) {
+      node.depthFirstLog(callback, node.right);
+    }
+  }
+
 };

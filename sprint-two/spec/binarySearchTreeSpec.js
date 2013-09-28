@@ -32,4 +32,13 @@ describe("binarySearchTree", function() {
     binarySearchTree.insert(10);
     expect(binarySearchTree.largest()).toEqual(10);
   });
+
+  it("should do some shit with callbacks", function(){
+    binarySearchTree.insert(5);
+    binarySearchTree.insert(1);
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(7);
+    binarySearchTree.depthFirstLog(function(value) { console.log(value) });
+  });
+  
 });
