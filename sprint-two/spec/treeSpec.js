@@ -40,4 +40,16 @@ describe("tree", function() {
     expect(tree.find("A missing node")).toEqual(null);
   });
 
+  it("should know the parent of the top most node is null", function(){
+    tree.addChild("Hello");
+    expect(tree.parent).toEqual(null);
+  });
+
+  it("should know the parent of a child node", function(){
+    var hello = tree.addChild("Hello");
+    var goodbye = hello.addChild("goodbye");
+    expect(goodbye.parent.value).toEqual("Hello");
+
+  });
+
 });
