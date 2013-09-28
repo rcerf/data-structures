@@ -55,15 +55,27 @@ var binarySearchTreeMethods = {
     return present;
   },
 
-  leftMost: function(node) {
+  smallest: function(node) {
     node = node || this;
     var result;
     if (node.left === null) {
       return node.value;
     } else {
-      result = node.leftMost(node.left);
+      result = node.smallest(node.left);
     }
     return result;
+  },
+
+  largest: function(node) {
+    node = node || this;
+    var result;
+    if (node.right === null) {
+      return node.value;
+    } else {
+      result = node.largest(node.right);
+    }
+    return result;
+
   },
 
   depthFirstLog: function(){}

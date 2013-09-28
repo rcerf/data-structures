@@ -25,8 +25,11 @@ describe("binarySearchTree", function() {
     binarySearchTree.insert(1);
     binarySearchTree.insert(3);
     binarySearchTree.insert(7);
-    expect(binarySearchTree.leftMost()).toEqual(1);
+    expect(binarySearchTree.smallest()).toEqual(1);
+    expect(binarySearchTree.largest()).toEqual(7);
     binarySearchTree.insert(0);
-    expect(binarySearchTree.leftMost()).toEqual(0);
+    expect(binarySearchTree.smallest()).toEqual(0);
+    binarySearchTree.insert(10);
+    expect(binarySearchTree.largest()).toEqual(10);
   });
 });
