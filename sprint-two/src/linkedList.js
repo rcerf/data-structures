@@ -38,6 +38,16 @@ var makeLinkedList = function(){
     }
   };
 
+  list.removeTail = function() {
+    if (list.tail) {
+      var cached = list.tail.prev;
+      var oldVal = list.tail.value;
+      list.tail.prev = null;
+      list.tail = cached;
+      return oldVal;
+    }
+  };
+
   list.contains = function(value, node){
     node = node || list.head;
     var present = false;
