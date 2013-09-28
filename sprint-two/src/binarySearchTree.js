@@ -29,7 +29,7 @@ var binarySearchTreeMethods = {
         newNode = makeBinarySearchTree(value);
         node.right = newNode;
       }
-    }else{
+    }else if(node.value > value){
       if(node.left){
         node.insert(value, node.left);
       }else{
