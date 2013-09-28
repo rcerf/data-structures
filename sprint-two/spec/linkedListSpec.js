@@ -32,11 +32,17 @@ describe("linkedList", function() {
     linkedList.removeHead();
   });
 
-
   it("can find whether linkedList contains a value", function(){
     linkedList.addToTail(10);
     linkedList.addToTail(5);
     linkedList.addToTail(7);
     expect(linkedList.contains(5)).toEqual(true);
+  });
+
+  it("can add to the head of the list", function() {
+    linkedList.addToHead(3);
+    linkedList.addToHead(1);
+    expect(linkedList.contains(1)).toEqual(true);
+    expect(linkedList.removeHead()).toEqual(1);
   });
 });
