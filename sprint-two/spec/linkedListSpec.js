@@ -45,4 +45,13 @@ describe("linkedList", function() {
     expect(linkedList.contains(1)).toEqual(true);
     expect(linkedList.removeHead()).toEqual(1);
   });
+
+
+  it("can remove the tail and return the value", function() {
+    linkedList.addToTail(10);
+    linkedList.addToTail(5);
+    linkedList.addToTail(7);
+    linkedList.removeTail();
+    expect(linkedList.removeTail()).toEqual(5);
+  });
 });
