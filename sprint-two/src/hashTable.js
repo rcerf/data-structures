@@ -1,6 +1,6 @@
 var HashTable = function(){
   this._limit = 8;
-
+  this._filled = 0;
   // Use a limited array to store inserted elements.
   // It'll keep you from using too much space. Usage:
   //
@@ -12,19 +12,43 @@ var HashTable = function(){
 
   this._storage = makeLimitedArray(this._limit);
 };
-// TUrn my 2D arrays into linked list. The index itself need only contain a head and tail pointer. 
-// Each array in the index need to contain the key, value and next array.
 
-HashTable.prototype.insert = function(k, v){
+HashTable.prototype.insert = function(k, v, beingRebuilt){
+  beingRebuilt = beingRebuilt || false;
   var linkedList;
   var i = getIndexBelowMaxForKey(k, this._limit);
   if (this._storage.get(i) === undefined) {
     linkedList = this.makeLinkedList();
+    this._filled++;
   } else {
     linkedList = this._storage.get(i);
   }
   linkedList.addToTail(k,v);
   this._storage.set(i, linkedList);
+  if (!beingRebuilt) {
+    if ( (this._filled / this._limit) > 0.75) {
+      this.resize(this._limit * 2);
+    } else if ( (this._filled / this._limit) < 0.25) {
+      this.resize(this._limit / 2);
+     }
+  }
+};
+
+HashTable.prototype.resize = function(newLimit) {
+  var tempStorage = this._storage;
+  var tempLimit = this._limit;
+  this._limit = newLimit;
+  this._filled = 0;
+  this._storage = makeLimitedArray(this._limit);
+  for(var k = 0; k < tempLimit; k++){
+    var tempLinkedList = tempStorage.get(k);
+    if (tempLinkedList !== undefined) {
+      while (tempLinkedList[0] !== null) {
+        var head = tempLinkedList.returnHead();
+        this.insert(head[0], head[1], true);
+      }
+    }
+  }
 };
 
 HashTable.prototype.retrieve = function(k){
@@ -40,7 +64,6 @@ HashTable.prototype.retrieve = function(k){
 HashTable.prototype.remove = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
   var linkedList = this._storage.get(i);
-//  debugger;
   if(linkedList.contains(k)){
     var nodeDelete = linkedList.returnNode(k);
     if(nodeDelete[2] === null && nodeDelete[3] !== null) {
@@ -72,6 +95,16 @@ HashTable.prototype.makeLinkedList = function(){
       newNode[2] = list[1];
     }
     list[1] = newNode;
+  };
+
+  list.returnHead = function(){
+    if(list[0]){
+      var oldVal = [list[0][0], list[0][1]];
+      var cached = list[0][3];
+      list[0][3] = null;
+      list[0] = cached;
+      return oldVal;
+    }
   };
 
   list.removeNode = function(node){
