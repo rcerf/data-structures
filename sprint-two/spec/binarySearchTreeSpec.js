@@ -34,21 +34,20 @@ describe("binarySearchTree", function() {
   });
 
   it("should run callbacks", function(){
-    binarySearchTree.insert(5);
-    binarySearchTree.insert(1);
-    binarySearchTree.insert(3);
-    binarySearchTree.insert(7);
-    binarySearchTree.insert(5);
-    for(var i=0; i< 10000; i++){
-      binarySearchTree.insert(Math.floor(Math.random() * 1000));
+    for(var i=0; i< 100; i++){
+      binarySearchTree.insert(Math.floor(Math.random() * 100));
     }
-    binarySearchTree.insert(1000);
+    binarySearchTree.insert(100);
+    expect(binarySearchTree.largest()).toEqual(100);
     binarySearchTree.depthFirstLog(function(value){
-      console.log("original value equals", value);
       value++;
-      console.log("new value equals", value);
-    });
-    expect(binarySearchTree.largest()).toEqual(1000);
+    }, false);
+    expect(binarySearchTree.largest()).toEqual(100);
+    binarySearchTree.depthFirstLog(function(value){
+      value++;
+      return value;
+    }, true);
+    expect(binarySearchTree.largest()).toEqual(101);
   });
 
 });

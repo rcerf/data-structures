@@ -77,14 +77,20 @@ var binarySearchTreeMethods = {
 
   },
 
-  depthFirstLog: function(callback, node){
+  depthFirstLog: function(callback, destructive, node){
     node = node || this;
-    callback(node.value);
+    destructive = destructive || false;
+    if (destructive) { // if the user wants their callback to mutate the original tree
+      var returnedVal = callback(node.value);
+      node.value = returnedVal;
+    } else {
+      callback(node.value);
+    }
     if (node.left !== null) {
-      node.depthFirstLog(callback, node.left);
+      node.depthFirstLog(callback, destructive, node.left);
     }
     if (node.right !== null) {
-      node.depthFirstLog(callback, node.right);
+      node.depthFirstLog(callback,  destructive, node.right);
     }
   }
 
