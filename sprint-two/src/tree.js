@@ -1,6 +1,6 @@
 var makeTree = function(value){
   var newTree = {};
-  newTree.value = value || "Top o' the tree";
+  newTree.value = value || "head";
   newTree.children = [];
   newTree.parent = null;
   newTree = extend(newTree, treeMethods);
@@ -34,6 +34,17 @@ treeMethods.contains = function(value, node){
     }
   }
   return found;
+};
+
+treeMethods.traverse = function(callback, node) {
+  node = node || this;
+  callback(node.value);
+  if (node.children.length === 0){
+    return;
+  }
+  for (var i = 0; i < node.children.length; i++){
+    this.traverse(callback, node.children[i]);
+  }
 };
 
 treeMethods.find = function(value, node){

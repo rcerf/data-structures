@@ -49,7 +49,19 @@ describe("tree", function() {
     var hello = tree.addChild("Hello");
     var goodbye = hello.addChild("goodbye");
     expect(goodbye.parent.value).toEqual("Hello");
-
   });
 
+  it("should traverse the tree with the .traverse() method", function() {
+    var items = ["head", "images", "/images/this.png", "/images/that.png",  "links", "http://www.here.com"];
+    var images = tree.addChild("images");
+    var links = tree.addChild("links");
+    var imageOne = images.addChild("/images/this.png");
+    var imageTwo = images.addChild("/images/that.png");
+    var linkOne = links.addChild("http://www.here.com");
+    var i = 0;
+    tree.traverse(function(value) {
+      expect(value).toEqual(items[i++]);
+    });
+
+  });
 });
