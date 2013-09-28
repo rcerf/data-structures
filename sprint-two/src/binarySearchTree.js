@@ -20,34 +20,35 @@ var binarySearchTreeMethods = {
   insert: function(value, node){
     var newNode;
     node = node || this;
-    debugger
-    if(!this.value){
-      this.value = value;
-    }else if(this.value < value){
-      if(this.right){
-        this.insert(value, this.right);
+    if(!node.value){
+      node.value = value;
+    }else if(node.value < value){
+      if(node.right){
+        node.insert(value, node.right);
       }else{
         newNode = makeBinarySearchTree(value);
-        this.right = newNode;
+        node.right = newNode;
       }
     }else{
-      if(this.left){
-        this.insert(value, this.left);
+      if(node.left){
+        node.insert(value, node.left);
       }else{
         newNode = makeBinarySearchTree(value);
-        this.left = newNode;
+        node.left = newNode;
       }
     }
   },
 
   contains: function(value, node){
+    if (node === null) {
+      return false;
+    }
     node = node || this;
     var present = false;
-    debugger;
-    if(this.value > value){
-      present = this.contains(value, this.left);
-    }else if(this.value < value){
-      present = this.contains(value, this.right);
+    if(node.value > value){
+      present = node.contains(value, node.left);
+    }else if(node.value < value){
+      present = node.contains(value, node.right);
     }else{
       present = true;
     }

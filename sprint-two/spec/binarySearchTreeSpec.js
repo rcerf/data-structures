@@ -12,13 +12,12 @@ describe("binarySearchTree", function() {
   });
   // add more tests here to test the functionality of binarySearchTree
   it("should have a working contains method", function(){
-    debugger;
     binarySearchTree.insert(5);
     binarySearchTree.insert(1);
-    //binarySearchTree.insert(3);
-    //binarySearchTree.insert(7);
-    // expect(binarySearchTree.contains(3)).toEqual(true);
-    // expect(binarySearchTree.contains(10)).toEqual(false);
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(7);
+    expect(binarySearchTree.contains(3)).toEqual(true);
+    expect(binarySearchTree.contains(10)).toEqual(false);
   });
 
   // it("should be able to insert a value properly", function(){
