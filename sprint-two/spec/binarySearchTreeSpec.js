@@ -20,11 +20,13 @@ describe("binarySearchTree", function() {
     expect(binarySearchTree.contains(10)).toEqual(false);
   });
 
-  // it("should be able to insert a value properly", function(){
-  //   binarySearchTree.insert(5);
-  //   binarySearchTree.insert(1);
-  //   binarySearchTree.insert(3);
-  //   binarySearchTree.insert(7);
-  //   expect(binarySearchTree.leftmost()).toEqual(1);
-  // });
+  it("should be able to insert a value properly", function(){
+    binarySearchTree.insert(5);
+    binarySearchTree.insert(1);
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(7);
+    expect(binarySearchTree.leftMost()).toEqual(1);
+    binarySearchTree.insert(0);
+    expect(binarySearchTree.leftMost()).toEqual(0);
+  });
 });
