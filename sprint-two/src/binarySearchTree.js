@@ -37,6 +37,7 @@ var binarySearchTreeMethods = {
         node.left = newNode;
       }
     }
+    this.reStack();
   },
 
   contains: function(value, node){
@@ -103,5 +104,11 @@ var binarySearchTreeMethods = {
       array[i].right && nextArray.push(array[i].right);
     }
     nextArray.length && this.breadthFirstLog(callback, nextArray);
+  },
+
+  reStack: function() {
+    var left = this.weight(this.left);
+    var right = this.weight(this.right);
+    
   }
 };
