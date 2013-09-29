@@ -50,4 +50,15 @@ describe("binarySearchTree", function() {
     expect(binarySearchTree.largest()).toEqual(101);
   });
 
+  it("should be able to log values across rows (i.e. breadth first logging)", function(){
+    binarySearchTree.insert(5);
+    binarySearchTree.insert(1);
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(10);
+    binarySearchTree.insert(15);
+    binarySearchTree.insert(4);
+    binarySearchTree.insert(8);
+    binarySearchTree.breadthFirstLog(function(value) { console.log(value) });
+  });
 });
