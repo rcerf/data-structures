@@ -92,6 +92,16 @@ var binarySearchTreeMethods = {
     if (node.right !== null) {
       node.depthFirstLog(callback,  destructive, node.right);
     }
-  }
+  },
 
+  breadthFirstLog: function(callback, array) {
+    array = array || [this];
+    var nextArray = [];
+    for (var i=0; i < array.length; i++) {
+      callback(array[i].value);
+      array[i].left && nextArray.push(array[i].left);
+      array[i].right && nextArray.push(array[i].right);
+    }
+    nextArray.length && this.breadthFirstLog(callback, nextArray);
+  }
 };
