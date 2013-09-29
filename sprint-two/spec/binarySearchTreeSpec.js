@@ -59,6 +59,12 @@ describe("binarySearchTree", function() {
     binarySearchTree.insert(15);
     binarySearchTree.insert(4);
     binarySearchTree.insert(8);
-    binarySearchTree.breadthFirstLog(function(value) { console.log(value) });
+    var result = "";
+    binarySearchTree.breadthFirstLog(function(value){
+      result += value;
+    });
+    expect(result).toEqual("5173104815");
+
+
   });
 });
