@@ -64,7 +64,6 @@ describe("binarySearchTree", function() {
       result += value;
     });
     expect(result).toEqual("5173104815");
-
-
   });
+
 });
